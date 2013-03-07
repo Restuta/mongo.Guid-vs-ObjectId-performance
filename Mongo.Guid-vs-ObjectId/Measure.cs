@@ -5,6 +5,8 @@ namespace Mongo.Guid_vs_ObjectId
 {
     public static class Measure
     {
+        public static long LastMeasurmentTime { get; set; }
+
         private static readonly System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
         
         /// <summary>
@@ -21,20 +23,16 @@ namespace Mongo.Guid_vs_ObjectId
 
             stopwatch.Stop();
 
-            WhenDone.Invoke(prefix, stopwatch.ElapsedMilliseconds);
+            var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+
+            WhenDone.Invoke(prefix, elapsedMilliseconds);
+            LastMeasurmentTime = elapsedMilliseconds;
         }
 
 
         public static void Performance(string prefix, Action codeToMeasure)
         {
-            stopwatch.Reset();
-            stopwatch.Start();
-
-            codeToMeasure.Invoke();
-
-            stopwatch.Stop();
-
-            WhenDone.Invoke(prefix, stopwatch.ElapsedMilliseconds);
+           Performance(codeToMeasure, prefix);
         }
     }
 }
