@@ -7,7 +7,7 @@ Each test was performed at least 3 times.
 
 
 |                                                         | ObjectId      | Guid            | Sequential Guid|
-| --------------------------------------------------------|:-------------:|:----------------:|:---:----------|
+| --------------------------------------------------------|:-------------:|:----------------:|:---:|
 | 1M inserts batched                                      | 13401ms       |   37138ms       ||
 | 1M inserts                                              | 133255ms      |   160199ms      ||
 | 10m inserts batched, with 10M documents already present | 152426ms      |    470489ms     ||
