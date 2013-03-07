@@ -61,10 +61,10 @@ namespace Mongo.Guid_vs_ObjectId
                 if (doc != null) WL(doc.Id.ToString());
             });
 
-            Measure.Performance("Reading one document by id", () =>
+            Measure.Performance("Count doc's grater than random Id", () =>
             {
-                var result = db.GetCollection<TestDocumentObjectId>().AsQueryable().Select(x => x.Id).GroupBy(x => x).Count();
-                WL(result.ToString());
+                var doc = db.GetCollection<TestDocumentObjectId>().AsQueryable().Count(x => x.Id >= new ObjectId("5137e369932bdc677423e80d"));
+                WL(doc.ToString());
             });
 
         }
