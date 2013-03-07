@@ -43,11 +43,11 @@ namespace Mongo.Guid_vs_ObjectId
             //});
             //WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)).ToString() + "ms per document");
 
-            Measure.Performance(NumberOfDocuments + " BATCH documents insertion with", () =>
-            {
-                db.GetCollection<TestDocumentObjectId>().InsertBatch(NewTestDocument().Take(NumberOfDocuments));
-            });
-            WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)).ToString() + "ms per document");
+            //Measure.Performance(NumberOfDocuments + " BATCH documents insertion with", () =>
+            //{
+            //    db.GetCollection<TestDocumentObjectId>().InsertBatch(NewTestDocument().Take(NumberOfDocuments));
+            //});
+            //WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)).ToString() + "ms per document");
 
             Measure.Performance("Skip 10 000 000 docs and take one", () =>
             {
@@ -58,7 +58,7 @@ namespace Mongo.Guid_vs_ObjectId
             Measure.Performance("Reading one document by id", () =>
             {
                 var doc = db.GetCollection<TestDocumentObjectId>().AsQueryable().SingleOrDefault(x => x.Id == new ObjectId("5137e369932bdc677423e80d"));
-                WL(doc.Id.ToString());
+                if (doc != null) WL(doc.Id.ToString());
             });
 
             Measure.Performance("Reading one document by id", () =>
