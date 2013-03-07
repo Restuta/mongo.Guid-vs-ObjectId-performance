@@ -31,23 +31,23 @@ namespace Mongo.Guid_vs_ObjectId
         {
             Measure.WhenDone = (prefix, time) => WL(prefix.ToString().DarkCyan() + " time: " + (time.ToString() + "ms").DarkYellow());
 
-            const int NumberOfDocuments = 10000000;
+            const int NumberOfDocuments = 1000000;
             var db = GetDatabase();
 
-            Measure.Performance(NumberOfDocuments + " documents insertion with", () =>
-            {
-                foreach (var document in NewTestDocument().Take(NumberOfDocuments))
-                {
-                    db.GetCollection<TestDocument>().Insert(document);
-                }
-            });
-            WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)).ToString() + "ms per document");
+            //Measure.Performance(NumberOfDocuments + " documents insertion with", () =>
+            //{
+            //    foreach (var document in NewTestDocument().Take(NumberOfDocuments))
+            //    {
+            //        db.GetCollection<TestDocument>().Insert(document);
+            //    }
+            //});
+            //WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)).ToString() + "ms per document");
 
             //Measure.Performance(NumberOfDocuments + " BATCH documents insertion with", () =>
             //{
             //    db.GetCollection<TestDocument>().InsertBatch(NewTestDocument().Take(NumberOfDocuments));
             //});
-            //WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)).ToString() + "ms per document");
+            //WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)) + "ms per document");
 
             Measure.Performance("Skip 10 000 000 docs and take one", () =>
             {
@@ -61,7 +61,13 @@ namespace Mongo.Guid_vs_ObjectId
                 WL(doc.Id.ToString());
             });
 
-            //Measure.Performance("Count doc's grater than random Id", () =>
+            Measure.Performance("Reading one document by id", () =>
+            {
+                var doc = db.GetCollection<TestDocument>().AsQueryable().SingleOrDefault(x => x.Id.ToString() == "2dbe6ee1-42b7-4209-8c84-cb2fbe6a799c");
+                WL(doc.Id.ToString());
+            });
+
+            //Measure.Performance("Count doc's greater than random Id", () =>
             //{
             //    var doc = db.GetCollection<TestDocument>().AsQueryable().Count(x => x.Id >= new Guid("2dbe6ee1-42b7-4209-8c84-cb2fbe6a799c"));
             //    WL(doc.ToString());
