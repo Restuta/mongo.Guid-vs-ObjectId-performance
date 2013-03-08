@@ -5,6 +5,8 @@ Comparing index performance on using Guids and ObjectIds with Mongo
 
 Each test was performed at least 3 times.
 
+There are several branches, each for each test-set (guid, objectId, etc).
+
 
 |                                                         | ObjectId      | Guid            | Sequential Guid|
 | --------------------------------------------------------|:-------------:|:----------------:|:---:|
