@@ -15,9 +15,9 @@ namespace Mongo.Guid_vs_ObjectId
     internal delegate void Write(ColorfullString colorfullString);
     internal delegate void WriteLine(ColorfullString colorfullString);
 
-    public class TestDocument
+    public class TestDocumentSeqGuid
     {
-        [BsonId(IdGenerator = typeof(GuidGenerator))]
+        [BsonId(IdGenerator = typeof(CombGuidGenerator))]
         public Guid Id { get; set; }
     }
 
@@ -31,45 +31,45 @@ namespace Mongo.Guid_vs_ObjectId
         {
             Measure.WhenDone = (prefix, time) => WL(prefix.ToString().DarkCyan() + " time: " + (time.ToString() + "ms").DarkYellow());
 
-            const int NumberOfDocuments = 1000000;
+            const int NumberOfDocuments = 10000000;
             var db = GetDatabase();
 
             //Measure.Performance(NumberOfDocuments + " documents insertion with", () =>
             //{
             //    foreach (var document in NewTestDocument().Take(NumberOfDocuments))
             //    {
-            //        db.GetCollection<TestDocument>().Insert(document);
+            //        db.GetCollection<TestDocumentSeqGuid>().Insert(document);
             //    }
             //});
             //WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)).ToString() + "ms per document");
 
-            //Measure.Performance(NumberOfDocuments + " BATCH documents insertion with", () =>
-            //{
-            //    db.GetCollection<TestDocument>().InsertBatch(NewTestDocument().Take(NumberOfDocuments));
-            //});
-            //WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)) + "ms per document");
+            Measure.Performance(NumberOfDocuments + " BATCH documents insertion with", () =>
+            {
+                db.GetCollection<TestDocumentSeqGuid>().InsertBatch(NewTestDocument().Take(NumberOfDocuments));
+            });
+            WL((Measure.LastMeasurmentTime / Convert.ToDouble(NumberOfDocuments)) + "ms per document");
 
             Measure.Performance("Skip 10 000 000 docs and take one", () =>
             {
-                var doc = db.GetCollection<TestDocument>().AsQueryable().Skip(10000000).Take(1).ToList().SingleOrDefault();
+                var doc = db.GetCollection<TestDocumentSeqGuid>().AsQueryable().Skip(10000000).Take(1).ToList().SingleOrDefault();
                 WL(doc.Id.ToString());
             });
 
             Measure.Performance("Reading one document by id", () =>
             {
-                var doc = db.GetCollection<TestDocument>().AsQueryable().SingleOrDefault(x => x.Id == new Guid("2dbe6ee1-42b7-4209-8c84-cb2fbe6a799c"));
-                WL(doc.Id.ToString());
+                var doc = db.GetCollection<TestDocumentSeqGuid>().AsQueryable().SingleOrDefault(x => x.Id == new Guid("2dbe6ee1-42b7-4209-8c84-cb2fbe6a799c"));
+                if (doc != null) WL(doc.Id.ToString());
             });
 
-            Measure.Performance("Reading one document by id", () =>
-            {
-                var doc = db.GetCollection<TestDocument>().AsQueryable().SingleOrDefault(x => x.Id.ToString() == "2dbe6ee1-42b7-4209-8c84-cb2fbe6a799c");
-                WL(doc.Id.ToString());
-            });
+            //Measure.Performance("Reading one document by id", () =>
+            //{
+            //    var doc = db.GetCollection<TestDocumentSeqGuid>().AsQueryable().SingleOrDefault(x => x.Id.ToString() == "2dbe6ee1-42b7-4209-8c84-cb2fbe6a799c");
+            //    WL(doc.Id.ToString());
+            //});
 
             //Measure.Performance("Count doc's greater than random Id", () =>
             //{
-            //    var doc = db.GetCollection<TestDocument>().AsQueryable().Count(x => x.Id >= new Guid("2dbe6ee1-42b7-4209-8c84-cb2fbe6a799c"));
+            //    var doc = db.GetCollection<TestDocumentSeqGuid>().AsQueryable().Count(x => x.Id >= new Guid("2dbe6ee1-42b7-4209-8c84-cb2fbe6a799c"));
             //    WL(doc.ToString());
             //});
 
@@ -87,11 +87,11 @@ namespace Mongo.Guid_vs_ObjectId
         }
 
 
-        public static IEnumerable<TestDocument> NewTestDocument()
+        public static IEnumerable<TestDocumentSeqGuid> NewTestDocument()
         {
             while (true)
             {
-                yield return new TestDocument();
+                yield return new TestDocumentSeqGuid();
             }
         }
     }
