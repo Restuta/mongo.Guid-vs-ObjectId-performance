@@ -10,8 +10,8 @@ There are several branches, each for each test-set (guid, objectId, etc).
 
 |                                                         | ObjectId      | Guid            | Sequential Guid|
 | --------------------------------------------------------|:-------------:|:----------------:|:---:|
-| 1M inserts batched                                      | 13401ms       |   37138ms       ||
-| 1M inserts                                              | 133255ms      |   160199ms      ||
+| 1M inserts batched                                      | 13401ms       |   37138ms       |39291ms|
+| 1M inserts                                              | 133255ms      |   160199ms      |159393ms|
 | 10m inserts batched, with 10M documents already present | 152426ms      |    470489ms     ||
 | 10m inserts, with 10M documents already present         | 1337894ms     |    4921991ms    ||
 | Find document by id (24M docs)                          | 25ms          |     25ms        ||
