@@ -59,5 +59,5 @@ docs inserted during past 60 seconds:3050576
 docs inserted during past 60 seconds:93636
 5139193d932bdc5e346ff3a7
 Skip 10 000 000 docs and take one time: 11075ms
-Reading one document by id time: 421ms
+Reading one document by id time: 421ms //not so true, other test proved that avg is ~42ms
 ```
