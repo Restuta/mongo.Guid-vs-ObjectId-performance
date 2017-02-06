@@ -2,8 +2,8 @@ mongo.Guid-vs-ObjectId-performance
 ==================================
 Comparing index performance on using Guids and ObjectIds with Mongo
 
-I was always told that non-sequential ids lead to drop in index performance, so I decided to test it. 
-It's interesting to know what % of perfomance drop we are talking about there. So I choose `ObjectId` as a higly sequential id and `Guid` as non-sequential one. 
+I have always been told that non-sequential ids lead to drop in index performance, therefore I decided to test it. 
+It's interesting to understand what percent of perfomance drop we are talking about. So I've chosen `ObjectId` as a highly sequential id and `Guid` as non-sequential one. 
 
 **Update:** According to my tests I can't notice any significant perfomance difference in reads, there is some on the write side, could you please advice what I am doing wrong? What test cases should I try to execute and compare?
 
