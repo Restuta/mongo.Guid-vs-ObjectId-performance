@@ -14,17 +14,18 @@ Each test was performed at least 3 times.
 **Tip:** There are several branches, each for each test-set (guid, objectId, etc).
 
 
-|                                                         | ObjectId      | Guid            | Sequential Guid|
-| --------------------------------------------------------|:-------------:|:----------------:|:---:|
-| 1M inserts batched                                      | 13,401ms       |   37,138ms       |39,291ms|
-| 1M inserts                                              | 133,255ms      |   160,199ms      |159,393ms|
-| 10m inserts batched, with 10M documents already present | 152,426ms      |    470,489ms     |482,354ms|
-| 10m inserts, with 10M documents already present         | 1,337,894ms     |    4,921,991ms    ||
-| Find document by id (24M docs)                          | 25ms          |     25ms        |22ms|
-| Skip 10M docs, take 1 (24M docs)                        | 1,401ms        |     1,454ms      |1,449ms|
+|                                                         | ObjectId      | Guid            | Sequential Guid|% perf drop<sup>1</sup>|
+| --------------------------------------------------------|:-------------:|:----------------:|:---:|:--:|
+| 1M inserts batched                                      | 13,401ms       |   37,138ms       |39,291ms|177%|
+| 1M inserts                                              | 133,255ms      |   160,199ms      |159,393ms|20%|
+| 10m inserts batched, with 10M documents already present | 152,426ms      |    470,489ms     |482,354ms|200%|
+| 10m inserts, with 10M documents already present         | 1,337,894ms     |    4,921,991ms    |268%|
+| Find document by id (24M docs)                          | 25ms          |     25ms        |22ms|0%|
+| Skip 10M docs, take 1 (24M docs)                        | 1,401ms        |     1,454ms      |1,449ms|3.8%|
 | Count docs where doc.id > randomId  (24M docs)          | 48,363ms       |not applicable (since operator ">") doesn't work for Guid||
-|Index size for 24M docs                                  | 819MB         |       1225MB    ||
+|Index size for 24M docs                                  | 819MB         |       1225MB    |50%|
 
+<sup>1</sup> percent of performance drop is calculated `guid / objectid - 100` since objectId is a baseline
 
 
 -----------------------------------
